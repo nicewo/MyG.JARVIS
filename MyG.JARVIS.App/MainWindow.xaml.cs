@@ -18,7 +18,7 @@ public partial class MainWindow : Window
     private readonly string _historyPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "MyGTech", "JARVIS", "chats.json");
-    private readonly OpenAiChatService _openAi = new();
+    private OpenAiChatService _openAi = new();
     private ChatSession _currentSession = null!;
     private bool _isSending;
 
@@ -37,6 +37,20 @@ public partial class MainWindow : Window
         RenderCurrentSession();
         RenderSessionList();
         MessageInput.Focus();
+    }
+
+    private async void ApiSettingsButton_Click(object sender, RoutedEventArgs e)
+    {
+        var settings = new ApiSettingsWindow { Owner = this };
+        settings.ShowDialog();
+        if (settings.ValidatedApiKey is not null)
+        {
+            _openAi = new OpenAiChatService();
+            ApiStatusText.Text = "OPENAI HAZIR";
+            ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(116, 196, 132));
+            MessageBox.Show("OpenAI bağlantısı test edildi ve anahtar kaydedildi. Artık sohbet ekranından mesaj gönderebilirsin.",
+                "MyG JARVIS", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 
     private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
