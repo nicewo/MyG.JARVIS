@@ -27,6 +27,19 @@ internal sealed class OpenAiChatService
 
     public bool IsConfigured => !string.IsNullOrWhiteSpace(_apiKey);
 
+    public static async Task TestConnectionAsync(string apiKey, CancellationToken cancellationToken = default)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/responses");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+        request.Content = new StringContent(
+            JsonSerializer.Serialize(new { model = Environment.GetEnvironmentVariable("MYG_JARVIS_OPENAI_MODEL") ?? "gpt-6-astra", input = "Yanıt olarak yalnızca OK yaz." }),
+            Encoding.UTF8, "application/json");
+        using var response = await HttpClient.SendAsync(request, cancellationToken);
+        var body = await response.Content.ReadAsStringAsync(cancellationToken);
+        if (!response.IsSuccessStatusCode)
+            throw new InvalidOperationException($"OpenAI API ({(int)response.StatusCode} - {response.ReasonPhrase}). {TryGetErrorMessage(body)}");
+    }
+
     public async Task<string> SendAsync(
         IReadOnlyList<(string Role, string Text)> conversation,
         CancellationToken cancellationToken = default)
