@@ -264,12 +264,16 @@ public partial class MainWindow : Window
 
     private sealed class ChatSession
     {
+        public ChatSession() { }
+
         public string Title { get; set; } = "Yeni sohbet";
         public List<ChatMessage> Messages { get; set; } = [];
     }
 
     private sealed class ChatMessage
     {
+        public ChatMessage() { }
+
         public string Sender { get; set; } = "";
         public string Text { get; set; } = "";
         public bool IsUser { get; set; }
