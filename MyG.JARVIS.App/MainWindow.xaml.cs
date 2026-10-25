@@ -25,6 +25,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        ApiStatusText.Text = _openAi.IsConfigured ? "OPENAI HAZIR" : "API ANAHTARI GEREKLİ";
+        ApiStatusText.Foreground = new SolidColorBrush(
+            _openAi.IsConfigured ? Color.FromRgb(116, 196, 132) : Color.FromRgb(201, 165, 108));
         LoadSessions();
 
         if (_sessions.Count == 0)
@@ -97,6 +100,7 @@ public partial class MainWindow : Window
         });
 
         MessageInput.Clear();
+        SaveSessions();
         _isSending = true;
         SendMessageButton.IsEnabled = false;
         SendMessageButton.Content = "Yanıtlıyor…";
