@@ -227,6 +227,10 @@
                         </StackPanel>
                     </Button>
                     <TextBlock Grid.Row="1" Text="ÇALIŞMA ALANI" Foreground="#777984" FontSize="10" FontWeight="SemiBold" Margin="12,27,0,10"/>
+                    <TextBlock Grid.Row="3" Text="SON OTURUMLAR" Foreground="#777984" FontSize="10" FontWeight="SemiBold" Margin="12,20,0,10" VerticalAlignment="Top"/>
+                    <ScrollViewer Grid.Row="3" Margin="0,44,0,0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="SessionList"/>
+                    </ScrollViewer>
                     <StackPanel Grid.Row="2">
                         <Button Style="{StaticResource NavButton}" Background="#292A30">
                             <StackPanel Orientation="Horizontal">
@@ -274,7 +278,6 @@
 
                 <ScrollViewer x:Name="ChatScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <StackPanel x:Name="ChatMessages" Margin="0,0,8,10"/>
-                    </StackPanel>
                 </ScrollViewer>
 
                 <StackPanel Grid.Row="2" Margin="0,14,0,0">
