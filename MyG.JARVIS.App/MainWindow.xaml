@@ -1,6 +1,7 @@
 <Window x:Class="MyG.JARVIS.App.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         Title="MyG JARVIS"
         WindowStyle="None"
         ResizeMode="CanResize"
@@ -9,7 +10,16 @@
         WindowStartupLocation="CenterScreen"
         Background="#101114"
         Foreground="#E8E8EC"
-        FontFamily="Segoe UI">
+        FontFamily="Segoe UI"
+        Icon="Assets/MyG.JARVIS.ico">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="0"
+                            ResizeBorderThickness="6"
+                            GlassFrameThickness="0"
+                            CornerRadius="0"
+                            UseAeroCaptionButtons="False"/>
+    </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
         <SolidColorBrush x:Key="BackgroundBrush" Color="#101114"/>
@@ -110,15 +120,14 @@
             <RowDefinition Height="34"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#15161A" BorderBrush="#303139" BorderThickness="0,0,0,1">
+        <Border Grid.Row="0" Background="#15161A" BorderBrush="#303139" BorderThickness="0,0,0,1" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
             <Grid Margin="24,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                            MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 
                     <Border Width="35" Height="35" CornerRadius="9" Background="#302719" BorderBrush="#6C512B" BorderThickness="1">
                         <TextBlock Text="J" Foreground="#E7A94B" FontSize="23" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
