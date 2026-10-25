@@ -53,6 +53,12 @@ public partial class MainWindow : Window
         }
     }
 
+    private void PowerShellButton_Click(object sender, RoutedEventArgs e)
+    {
+        var terminal = new PowerShellTerminalWindow { Owner = this };
+        terminal.Show();
+    }
+
     private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (e.ChangedButton != MouseButton.Left)
