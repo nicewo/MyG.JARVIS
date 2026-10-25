@@ -291,7 +291,7 @@
                                      Padding="8,10" MinHeight="44" MaxHeight="120" TextWrapping="Wrap" AcceptsReturn="True"
                                      VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Center"
                                      ToolTip="Mesajını yaz..." KeyDown="MessageInput_KeyDown"/>
-                            <Button Grid.Column="1" Style="{StaticResource GoldButton}" VerticalAlignment="Bottom" Margin="8,0,0,0" Click="SendButton_Click">
+                            <Button x:Name="SendMessageButton" Grid.Column="1" Style="{StaticResource GoldButton}" VerticalAlignment="Bottom" Margin="8,0,0,0" Click="SendButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Gönder" VerticalAlignment="Center"/>
                                     <TextBlock Text="  ➤" FontSize="14" VerticalAlignment="Center"/>
