@@ -1,12 +1,320 @@
-﻿<Window x:Class="MyG.JARVIS.App.MainWindow"
+<Window x:Class="MyG.JARVIS.App.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MyG.JARVIS.App"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MyG JARVIS"
+        Width="1440" Height="900"
+        MinWidth="1100" MinHeight="700"
+        WindowStartupLocation="CenterScreen"
+        Background="#101114"
+        Foreground="#E8E8EC"
+        FontFamily="Segoe UI">
 
+    <Window.Resources>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#101114"/>
+        <SolidColorBrush x:Key="PanelBrush" Color="#18191E"/>
+        <SolidColorBrush x:Key="PanelLightBrush" Color="#202127"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#303139"/>
+        <SolidColorBrush x:Key="GoldBrush" Color="#E7A94B"/>
+        <SolidColorBrush x:Key="MutedBrush" Color="#92939F"/>
+        <SolidColorBrush x:Key="TextBrush" Color="#E8E8EC"/>
+
+        <Style x:Key="NavButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#C4C4CD"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="14,11"/>
+            <Setter Property="Margin" Value="0,3"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Root"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="7"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Root" Property="Background" Value="#292A30"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Root" Property="Background" Value="#353038"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GoldButton" TargetType="Button">
+            <Setter Property="Background" Value="#E7A94B"/>
+            <Setter Property="Foreground" Value="#17130D"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="18,10"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Root"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="7"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Root" Property="Background" Value="#F3BD68"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Root" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CardBorder" TargetType="Border">
+            <Setter Property="Background" Value="#18191E"/>
+            <Setter Property="BorderBrush" Value="#303139"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="16"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="#E8E8EC"/>
+            <Setter Property="Background" Value="#202127"/>
+            <Setter Property="BorderBrush" Value="#373841"/>
+            <Setter Property="CaretBrush" Value="#E7A94B"/>
+            <Setter Property="SelectionBrush" Value="#75552A"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="68"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="34"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#15161A" BorderBrush="#303139" BorderThickness="0,0,0,1">
+            <Grid Margin="24,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="35" Height="35" CornerRadius="9" Background="#302719" BorderBrush="#6C512B" BorderThickness="1">
+                        <TextBlock Text="J" Foreground="#E7A94B" FontSize="23" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="MyG JARVIS" FontSize="17" FontWeight="Bold" Foreground="#F2F2F4"/>
+                        <TextBlock Text="PERSONAL AI SYSTEM" FontSize="9" Foreground="#92939F" Margin="1,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse Width="8" Height="8" Fill="#D8A64E" Margin="0,0,8,0"/>
+                    <TextBlock Text="API BAĞLANTISI YOK" Foreground="#C9A56C" FontSize="11" VerticalAlignment="Center"/>
+                    <Border Width="1" Height="25" Background="#36373F" Margin="20,0"/>
+                    <TextBlock Text="LOCAL MODE" Foreground="#92939F" FontSize="10" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="260"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="#15161A" BorderBrush="#303139" BorderThickness="0,0,1,0">
+                <Grid Margin="14">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Style="{StaticResource GoldButton}" HorizontalContentAlignment="Center" Click="NewChatButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="+" FontSize="18" Margin="0,-2,8,0"/>
+                            <TextBlock Text="Yeni oturum" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <TextBlock Grid.Row="1" Text="ÇALIŞMA ALANI" Foreground="#777984" FontSize="10" FontWeight="SemiBold" Margin="12,27,0,10"/>
+                    <StackPanel Grid.Row="2">
+                        <Button Style="{StaticResource NavButton}" Background="#292A30">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="◈" Foreground="#E7A94B" Width="27" FontSize="16"/>
+                                <TextBlock Text="Asistan"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource NavButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⌘" Width="27" FontSize="15"/>
+                                <TextBlock Text="Görevler"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource NavButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="▤" Width="27" FontSize="15"/>
+                                <TextBlock Text="İşlem geçmişi"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource NavButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚙" Width="27" FontSize="15"/>
+                                <TextBlock Text="Ayarlar"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Grid.Row="4">
+                        <Border Height="1" Background="#303139" Margin="0,0,0,14"/>
+                        <TextBlock Text="MyGTech" Foreground="#E7A94B" FontWeight="SemiBold" FontSize="12"/>
+                        <TextBlock Text="JARVIS · DEV BUILD" Foreground="#777984" FontSize="9" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="24,20,24,18">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Margin="2,0,0,18">
+                    <TextBlock Text="Kişisel asistan" FontSize="22" FontWeight="SemiBold"/>
+                    <TextBlock Text="Komutlarını yaz, fikirlerini geliştir, görevlerini planla." Foreground="#92939F" FontSize="12" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <ScrollViewer x:Name="ChatScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel x:Name="ChatMessages" Margin="0,0,8,10">
+                        <Border Style="{StaticResource CardBorder}" Margin="0,0,0,16">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                    <Border Width="30" Height="30" CornerRadius="8" Background="#302719">
+                                        <TextBlock Text="J" Foreground="#E7A94B" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="JARVIS" FontSize="12" FontWeight="Bold"/>
+                                        <TextBlock Text="SİSTEM" FontSize="9" Foreground="#92939F"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock TextWrapping="Wrap" FontSize="14" LineHeight="23" Foreground="#D8D8DE"
+                                           Text="Sistem arayüzü hazır. Henüz bir yapay zekâ sağlayıcısına bağlanmadım. API bağlantısını ve kontrollü yerel komut yürütme katmanını kurduğumuzda burada seninle çalışabileceğim."/>
+                                <Border Background="#252127" CornerRadius="6" Padding="10" Margin="0,14,0,0">
+                                    <TextBlock Text="İLK AŞAMA  ·  ARAYÜZ HAZIRLIĞI" Foreground="#E7A94B" FontSize="10" FontWeight="SemiBold"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <StackPanel Grid.Row="2" Margin="0,14,0,0">
+                    <Border Background="#18191E" BorderBrush="#41424B" BorderThickness="1" CornerRadius="10" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="MessageInput" BorderThickness="0" Background="Transparent" Foreground="#E8E8EC"
+                                     Padding="8,10" MinHeight="44" MaxHeight="120" TextWrapping="Wrap" AcceptsReturn="True"
+                                     VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Center"
+                                     ToolTip="Mesajını yaz..." KeyDown="MessageInput_KeyDown"/>
+                            <Button Grid.Column="1" Style="{StaticResource GoldButton}" VerticalAlignment="Bottom" Margin="8,0,0,0" Click="SendButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Gönder" VerticalAlignment="Center"/>
+                                    <TextBlock Text="  ➤" FontSize="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <TextBlock Text="Enter: gönder  ·  Shift+Enter: yeni satır" Foreground="#777984" FontSize="10" Margin="5,8,0,0"/>
+                </StackPanel>
+            </Grid>
+
+            <Border Grid.Column="2" Background="#15161A" BorderBrush="#303139" BorderThickness="1,0,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="16">
+                        <TextBlock Text="SİSTEM DURUMU" FontSize="10" FontWeight="SemiBold" Foreground="#92939F" Margin="2,4,0,14"/>
+                        <Border Style="{StaticResource CardBorder}">
+                            <StackPanel>
+                                <TextBlock Text="Çalışma modu" Foreground="#92939F" FontSize="11"/>
+                                <TextBlock Text="Yerel arayüz" FontSize="15" FontWeight="SemiBold" Margin="0,7,0,0"/>
+                                <TextBlock Text="API henüz yapılandırılmadı" Foreground="#D8AD69" FontSize="10" TextWrapping="Wrap" Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="YAPAY ZEKÂ SAĞLAYICILARI" FontSize="10" FontWeight="SemiBold" Foreground="#92939F" Margin="2,24,0,12"/>
+                        <Border Style="{StaticResource CardBorder}" Padding="12" Margin="0,0,0,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Text="OpenAI" VerticalAlignment="Center" FontSize="12"/>
+                                <TextBlock Grid.Column="1" Text="Yapılandırılmadı" Foreground="#92939F" FontSize="9" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource CardBorder}" Padding="12" Margin="0,0,0,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Text="Claude" VerticalAlignment="Center" FontSize="12"/>
+                                <TextBlock Grid.Column="1" Text="Yapılandırılmadı" Foreground="#92939F" FontSize="9" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource CardBorder}" Padding="12">
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Text="Gemini" VerticalAlignment="Center" FontSize="12"/>
+                                <TextBlock Grid.Column="1" Text="Yapılandırılmadı" Foreground="#92939F" FontSize="9" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <TextBlock Text="YEREL AJAN" FontSize="10" FontWeight="SemiBold" Foreground="#92939F" Margin="2,24,0,12"/>
+                        <Border Style="{StaticResource CardBorder}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="7" Height="7" Fill="#D8A64E" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Hazırlık aşamasında" FontSize="11" Foreground="#D8AD69"/>
+                                </StackPanel>
+                                <TextBlock Text="PowerShell yürütme kapalı" Foreground="#92939F" FontSize="10" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="AKTİF GÖREV" FontSize="10" FontWeight="SemiBold" Foreground="#92939F" Margin="2,24,0,12"/>
+                        <Border Style="{StaticResource CardBorder}">
+                            <StackPanel>
+                                <TextBlock Text="Bekleyen görev yok" FontSize="12" FontWeight="SemiBold"/>
+                                <TextBlock Text="Bir sonraki aşamada görev planlama ve adım takibi eklenecek." Foreground="#92939F" FontSize="10" TextWrapping="Wrap" Margin="0,7,0,0" LineHeight="17"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="2" Background="#111216" BorderBrush="#303139" BorderThickness="0,1,0,0">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse Width="6" Height="6" Fill="#D8A64E" Margin="0,0,7,0"/>
+                    <TextBlock Text="Arayüz hazır" Foreground="#A8A8B2" FontSize="10"/>
+                    <TextBlock Text="  |  " Foreground="#555660" FontSize="10"/>
+                    <TextBlock Text=".NET 10 · WPF" Foreground="#777984" FontSize="10"/>
+                </StackPanel>
+                <TextBlock Grid.Column="1" Text="MyGTech © 2026" Foreground="#777984" FontSize="10" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
