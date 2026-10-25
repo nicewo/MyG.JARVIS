@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using MyG.JARVIS.App.Services;
 
 namespace MyG.JARVIS.App;
 
@@ -16,7 +18,9 @@ public partial class MainWindow : Window
     private readonly string _historyPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "MyGTech", "JARVIS", "chats.json");
+    private readonly OpenAiChatService _openAi = new();
     private ChatSession _currentSession = null!;
+    private bool _isSending;
 
     public MainWindow()
     {
@@ -55,21 +59,29 @@ public partial class MainWindow : Window
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
-    private void SendButton_Click(object sender, RoutedEventArgs e) => SendMessage();
 
-    private void MessageInput_KeyDown(object sender, KeyEventArgs e)
+    private async void SendButton_Click(object sender, RoutedEventArgs e)
+    {
+        await SendMessageAsync();
+    }
+
+    private async void MessageInput_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
             return;
+
         if (e.Key == Key.Enter)
         {
             e.Handled = true;
-            SendMessage();
+            await SendMessageAsync();
         }
     }
 
-    private void SendMessage()
+    private async Task SendMessageAsync()
     {
+        if (_isSending)
+            return;
+
         string message = MessageInput.Text.Trim();
         if (string.IsNullOrWhiteSpace(message))
             return;
@@ -85,10 +97,58 @@ public partial class MainWindow : Window
         });
 
         MessageInput.Clear();
-        SaveSessions();
+        _isSending = true;
+        SendMessageButton.IsEnabled = false;
+        SendMessageButton.Content = "Yanıtlıyor…";
         RenderCurrentSession();
         RenderSessionList();
         MessageInput.Focus();
+
+        try
+        {
+            var conversation = _currentSession.Messages
+                .Where(m => m.Sender is "SEN" or "JARVIS")
+                .Select(m => (Role: m.IsUser ? "user" : "assistant", Text: m.Text))
+                .ToList();
+
+            string answer = await _openAi.SendAsync(conversation);
+
+            _currentSession.Messages.Add(new ChatMessage
+            {
+                Sender = "JARVIS",
+                Text = answer,
+                IsUser = false
+            });
+
+            SaveSessions();
+            RenderCurrentSession();
+        }
+        catch (Exception ex)
+        {
+            AddMessage("BAĞLANTI HATASI", GetFriendlyError(ex), false);
+            ChatScrollViewer.ScrollToEnd();
+        }
+        finally
+        {
+            _isSending = false;
+            SendMessageButton.IsEnabled = true;
+            SendMessageButton.Content = "Gönder";
+            MessageInput.Focus();
+        }
+    }
+
+    private static string GetFriendlyError(Exception ex)
+    {
+        if (ex is InvalidOperationException &&
+            ex.Message.Contains("OPENAI_API_KEY", StringComparison.OrdinalIgnoreCase))
+        {
+            return "API anahtarı yapılandırılmamış. Windows kullanıcı ortam değişkenlerine OPENAI_API_KEY ekle, ardından uygulamayı kapatıp yeniden aç. Anahtarını kaynak koduna veya GitHub'a yazma.";
+        }
+
+        if (ex is TaskCanceledException)
+            return "İstek zaman aşımına uğradı. İnternet bağlantısını kontrol edip tekrar dene.";
+
+        return ex.Message;
     }
 
     private static string CreateTitle(string message)
@@ -112,6 +172,9 @@ public partial class MainWindow : Window
 
     private void NewChatButton_Click(object sender, RoutedEventArgs e)
     {
+        if (_isSending)
+            return;
+
         CreateSession();
         MessageInput.Clear();
         MessageInput.Focus();
@@ -119,6 +182,9 @@ public partial class MainWindow : Window
 
     private void SelectSession(ChatSession session)
     {
+        if (_isSending)
+            return;
+
         _currentSession = session;
         RenderCurrentSession();
         RenderSessionList();
@@ -132,7 +198,7 @@ public partial class MainWindow : Window
         {
             ChatMessages.Children.Add(new TextBlock
             {
-                Text = "Yeni sohbet hazır. Mesajını yazabilirsin.\n\nAPI henüz bağlı değil; bu aşamada mesajlar yerel olarak kaydedilir ve JARVIS tarafından yanıtlanmaz.",
+                Text = "Yeni sohbet hazır. Mesajını yazıp gönderebilirsin.",
                 Foreground = new SolidColorBrush(Color.FromRgb(146, 147, 159)),
                 FontSize = 13,
                 TextWrapping = TextWrapping.Wrap,
@@ -265,7 +331,6 @@ public partial class MainWindow : Window
     private sealed class ChatSession
     {
         public ChatSession() { }
-
         public string Title { get; set; } = "Yeni sohbet";
         public List<ChatMessage> Messages { get; set; } = [];
     }
@@ -273,7 +338,6 @@ public partial class MainWindow : Window
     private sealed class ChatMessage
     {
         public ChatMessage() { }
-
         public string Sender { get; set; } = "";
         public string Text { get; set; } = "";
         public bool IsUser { get; set; }
