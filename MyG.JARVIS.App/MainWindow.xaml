@@ -273,25 +273,7 @@
                 </StackPanel>
 
                 <ScrollViewer x:Name="ChatScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <StackPanel x:Name="ChatMessages" Margin="0,0,8,10">
-                        <Border Style="{StaticResource CardBorder}" Margin="0,0,0,16">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                                    <Border Width="30" Height="30" CornerRadius="8" Background="#302719">
-                                        <TextBlock Text="J" Foreground="#E7A94B" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                                        <TextBlock Text="JARVIS" FontSize="12" FontWeight="Bold"/>
-                                        <TextBlock Text="SİSTEM" FontSize="9" Foreground="#92939F"/>
-                                    </StackPanel>
-                                </StackPanel>
-                                <TextBlock TextWrapping="Wrap" FontSize="14" LineHeight="23" Foreground="#D8D8DE"
-                                           Text="Sistem arayüzü hazır. Henüz bir yapay zekâ sağlayıcısına bağlanmadım. API bağlantısını ve kontrollü yerel komut yürütme katmanını kurduğumuzda burada seninle çalışabileceğim."/>
-                                <Border Background="#252127" CornerRadius="6" Padding="10" Margin="0,14,0,0">
-                                    <TextBlock Text="İLK AŞAMA  ·  ARAYÜZ HAZIRLIĞI" Foreground="#E7A94B" FontSize="10" FontWeight="SemiBold"/>
-                                </Border>
-                            </StackPanel>
-                        </Border>
+                    <StackPanel x:Name="ChatMessages" Margin="0,0,8,10"/>
                     </StackPanel>
                 </ScrollViewer>
 
