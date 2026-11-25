@@ -1,3 +1,11 @@
+<div align="center">
+  <a href="https://myusufgultekin.web.app/"><img src="./assets/myg-project-banner.svg" alt="MYG JARVIS — MYG Tech" width="100%"></a>
+  <p><img src="https://img.shields.io/badge/C%23-.NET_10-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET 10"> <img src="https://img.shields.io/badge/WPF-DESKTOP-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="WPF"> <img src="https://img.shields.io/badge/AI-AGENTS-7C3AED?style=for-the-badge" alt="AI agents"></p>
+  <p><a href="https://myusufgultekin.web.app/">MYG TECH</a> · <a href="https://github.com/nicewo">GitHub Profile</a></p>
+</div>
+
+---
+
 ﻿# MyG JARVIS
 
 **Your local AI agent for Windows.**
